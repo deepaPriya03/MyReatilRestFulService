@@ -1,0 +1,12 @@
+com\retail\model\PriceDetail.class
+com\retail\repository\Queries.class
+com\retail\repository\MyRetailAppRepository.class
+com\retail\service\MyRetailAppServiceImpl.class
+com\retail\service\MyRetailAppService.class
+com\retail\repository\MyRetailAppRepositoryImpl.class
+com\retail\application\MyReatilRestFulServiceApplication.class
+com\retail\config\ResourceConfig.class
+com\retail\mapper\DataMapper.class
+com\retail\mapper\ProductMapper.class
+com\retail\model\Product.class
+com\retail\controller\MyReatilApplicationController.class
