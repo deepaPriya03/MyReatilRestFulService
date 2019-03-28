@@ -20,18 +20,18 @@ import com.retail.model.Product;
 import com.retail.repository.MyRetailAppRepository;
 
 public class MyRetailAppServiceImplTest {
-	
+
 	private MyRetailAppServiceImpl myRetailAppServiceImpl;
-	
+
 	@Mock
 	private MyRetailAppRepository myRetailAppRepository;
-	
+
 	@Mock
 	private RestTemplate restTemplate;
-	
+
 	@Mock
 	private Environment env;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		myRetailAppServiceImpl = new MyRetailAppServiceImpl();
@@ -40,11 +40,11 @@ public class MyRetailAppServiceImplTest {
 		ReflectionTestUtils.setField(myRetailAppServiceImpl, "restTemplate", restTemplate);
 		ReflectionTestUtils.setField(myRetailAppServiceImpl, "env", env);
 	}
-	
+
 	@Test
-	public void testGetProductDetails(){
-		String id="15117729";
-		
+	public void testGetProductDetails() {
+		String id = "15117729";
+
 		Product expectedProduct = new Product();
 		expectedProduct.setId(id);
 		expectedProduct.setName("Apple iPhone 7 128GB");
@@ -53,27 +53,27 @@ public class MyRetailAppServiceImplTest {
 		expectedPriceDetail.setValue(499.99);
 		expectedProduct.setCurrent_price(expectedPriceDetail);
 		Mockito.when(this.myRetailAppRepository.getProductDetails(Mockito.anyString())).thenReturn(expectedProduct);
-		
+
 		Product actualProduct = this.myRetailAppServiceImpl.getProductDetails(id);
 		Assert.assertEquals(expectedProduct.getName(), actualProduct.getName());
 	}
-	
-		
+
 	@Test
-	public void testRetrieveProductName_Exception(){
-		String id="151177291";
+	public void testRetrieveProductName_Exception() {
+		String id = "151177291";
 		Mockito.when(this.env.getProperty(Mockito.anyString())).thenReturn("");
-		
-		Mockito.when(this.restTemplate.getForObject(Mockito.anyString(), Mockito.any(), Mockito.any(Object[].class))).thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND)).thenReturn("");
+
+		Mockito.when(this.restTemplate.getForObject(Mockito.anyString(), Mockito.any(), Mockito.any(Object[].class)))
+				.thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND)).thenReturn("");
 		String name = this.myRetailAppServiceImpl.retrieveProductName(id);
 		Assert.assertEquals("", name);
 	}
-	
+
 	@Test
-	public void testUpdateProductPrice(){
-		String id="15117729";
+	public void testUpdateProductPrice() {
+		String id = "15117729";
 		Double value = 99.99;
-		
+
 		Product expectedProduct = new Product();
 		expectedProduct.setId(id);
 		expectedProduct.setName("Apple iPhone 7 128GB");
@@ -81,10 +81,11 @@ public class MyRetailAppServiceImplTest {
 		expectedPriceDetail.setCurrency_code("USD");
 		expectedPriceDetail.setValue(value);
 		expectedProduct.setCurrent_price(expectedPriceDetail);
-		Mockito.when(this.myRetailAppRepository.updateProductPrice(Mockito.anyString(), Mockito.anyDouble())).thenReturn(expectedProduct);
-		
+		Mockito.when(this.myRetailAppRepository.updateProductPrice(Mockito.anyString(), Mockito.anyDouble()))
+				.thenReturn(expectedProduct);
+
 		Product actualProduct = this.myRetailAppServiceImpl.updateProductPrice(id, value);
 		Assert.assertEquals(expectedProduct.getCurrent_price().getValue(), actualProduct.getCurrent_price().getValue());
 	}
-	
+
 }

@@ -15,25 +15,25 @@ public class ResourceConfig {
 
 	@Autowired
 	private Environment env;
-	
-	@Bean(name="dataSource")
-    public DataSource getDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("spring.db.driverclass"));
-        dataSource.setUrl(env.getProperty("spring.db.url"));
-        dataSource.setUsername(env.getProperty("spring.db.username"));
-        dataSource.setPassword(env.getProperty("spring.db.password"));
-        return dataSource;
-    }
-	
-	@Bean(name="jTemplate")
-	public JdbcTemplate jdbcTemplate(DataSource dataSource){
+
+	@Bean(name = "dataSource")
+	public DataSource getDataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName(env.getProperty("spring.db.driverclass"));
+		dataSource.setUrl(env.getProperty("spring.db.url"));
+		dataSource.setUsername(env.getProperty("spring.db.username"));
+		dataSource.setPassword(env.getProperty("spring.db.password"));
+		return dataSource;
+	}
+
+	@Bean(name = "jTemplate")
+	public JdbcTemplate jdbcTemplate(DataSource dataSource) {
 		return new JdbcTemplate(dataSource);
 	}
-	
-	@Bean(name="restTemplate")
-	public RestTemplate restTemplate(){
+
+	@Bean(name = "restTemplate")
+	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-	
+
 }

@@ -14,14 +14,12 @@ public class ProductMapper extends DataMapper<Product> {
 
 		product.setId(rs.getString("id"));
 		product.setName(rs.getString("name"));
-		
+
 		PriceDetail priceDetail = new PriceDetail();
 		priceDetail.setValue(rs.getDouble("value"));
 		priceDetail.setCurrency_code(rs.getString("currency_code"));
 		product.setCurrent_price(priceDetail);
 		return product;
 	}
-	
-	
 
 }

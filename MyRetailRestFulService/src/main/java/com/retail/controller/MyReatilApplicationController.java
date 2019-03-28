@@ -13,28 +13,28 @@ import com.retail.service.MyRetailAppService;
 
 @RestController
 public class MyReatilApplicationController {
-	
+
 	@Autowired
 	private MyRetailAppService myRetailAppService;
-	
-	@RequestMapping(path="/getProductDetails/{id}", method=RequestMethod.GET)
-	public Product getProductDetails(@PathVariable("id") String id){
+
+	@RequestMapping(path = "/getProductDetails/{id}", method = RequestMethod.GET)
+	public Product getProductDetails(@PathVariable("id") String id) {
 		return this.myRetailAppService.getProductDetails(id);
 	}
-	
-	@RequestMapping(path="/retrieveProductName", method=RequestMethod.GET)
-	public @ResponseBody String retrieveProductName(@RequestParam String id){
+
+	@RequestMapping(path = "/retrieveProductName", method = RequestMethod.GET)
+	public @ResponseBody String retrieveProductName(@RequestParam String id) {
 		return this.myRetailAppService.retrieveProductName(id);
 	}
-	
-	@RequestMapping(path="/readPricingInformation", method=RequestMethod.GET)
-	public Product readPricingInformation(@RequestParam String id){
+
+	@RequestMapping(path = "/readPricingInformation", method = RequestMethod.GET)
+	public Product readPricingInformation(@RequestParam String id) {
 		return this.myRetailAppService.readPricingInformation(id);
 	}
-	
-	@RequestMapping(path="/updateProductPrice/{id}", method=RequestMethod.PUT)
-	public Product updateProductPrice(@PathVariable("id") String id, @RequestParam String value){
+
+	@RequestMapping(path = "/updateProductPrice/{id}", method = RequestMethod.PUT)
+	public Product updateProductPrice(@PathVariable("id") String id, @RequestParam String value) {
 		return this.myRetailAppService.updateProductPrice(id, Double.parseDouble(value));
 	}
-	
+
 }
