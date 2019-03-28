@@ -4,15 +4,14 @@ import java.net.URI;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.retail.model.Product;
 import com.retail.repository.MyRetailAppRepository;
 import com.retail.repository.MyRetailAppRepositoryImpl;
@@ -24,9 +23,6 @@ public class MyRetailAppServiceImpl implements MyRetailAppService {
 
 	@Autowired
 	private MyRetailAppRepository myRetailAppRepository;
-
-	@Autowired
-	private Environment env;
 
 	@Autowired
 	RestTemplate restTemplate;
@@ -52,19 +48,20 @@ public class MyRetailAppServiceImpl implements MyRetailAppService {
 	@Override
 	public String retrieveProductName(String id) throws HttpClientErrorException {
 		LOGGER.info("Executing MyRetailAppServiceImpl retrieveProductName() method");
-		String URL = env.getProperty("external.api.url").concat(id).concat(env.getProperty("external.api.url.params"));
-		String name = "";
+		String title = "";
 		try {
 
-			URI url = new URI(URL);
-
+			URI url = new URI(
+					"https://redsky.target.com/v1/pdp/tcin/13860428?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics");
 			ResponseEntity<String> responseBody = restTemplate.getForEntity(url, String.class);
-			name = responseBody.getBody().substring(1013, 1039);
+			JSONObject noaaResponseObject = new JSONObject(new JSONTokener(responseBody.getBody()));
+			title = noaaResponseObject.getJSONObject("product").getJSONObject("item")
+					.getJSONObject("product_description").getString("title");
 
 		} catch (Exception e) {
 			LOGGER.debug("Error occured in retrieving Name from External API :: " + e);
 		}
-		return name;
+		return title;
 	}
 
 	/**
